@@ -1,0 +1,286 @@
+{% extends 'kgl_app/base.html'%}
+{% load crispy_forms_tags%} 
+{% load static %}
+{% block content%}
+<style>
+form{
+  height:100px;
+}
+ form input{
+  height:50px;
+  width: 200px;
+  border: 2px solid #a37579;
+  border-radius:15px;
+  
+ }
+
+ form label{
+  font-weight: bolder;
+  font-size: 1.5rem;
+ }
+  .filter-container {
+    border: 2px solid #f1f1f1;
+    border-radius: 10px;
+    width: 500px;
+    height:100px;
+    max-width: 900px;
+    padding: 15px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  .filter-container form {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .filter-container input[type="submit"] {
+    width: 100%;
+    padding: 8px;
+  }
+
+  main.table {
+    width: 100%;
+    max-width: 85vw;
+    margin: 0 auto 2rem auto;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 1rem;
+  }
+
+  
+  .table_body {
+    margin-top: 1rem;
+    max-height: 60vh; 
+    
+    border-radius: 8px;
+    overflow-y: auto; 
+    padding: 1rem;
+    background-color: #fff;
+  }
+
+  .table_body::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  .table_body::-webkit-scrollbar-thumb {
+    background-color: #919db7;
+    border-radius: 10px; 
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse; 
+    background-color: #919db7;
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  }
+
+  th, td {
+    padding: 16px 20px; 
+    font-size: 18px; 
+    font-weight: bold; 
+    height: 70px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; 
+  }
+
+  th{
+    background: #919db7;
+    text-align: center;
+  }
+
+  thead {
+    background-color: #919db7;
+    color: white; /* Header text color */
+    font-weight: bold;
+    position: sticky; 
+    top: 0;
+    z-index: 1;
+  }
+
+  td {
+    transition: background-color 0.3s ease;
+    text-align: center;
+  }
+
+  td:hover {
+    background-color: #f1f1f1; 
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2; 
+  }
+
+  tr:hover {
+    background-color: #eaeaea; 
+  }
+
+
+  .btn-primary,
+  .btn-danger {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+
+
+  .card {
+    width: 100%;
+    max-width: 300px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .card a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+
+  .card a:hover {
+    color: #0056b3;
+  }
+
+  /* Styling for the navigation buttons */
+  .btn-nav {
+    margin: 10px 0;
+    font-weight: bold;
+    color: white;
+  }
+
+  .btn-nav a {
+    text-decoration: none;
+    color: white;
+  }
+
+
+    .card a {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 5px;
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+  
+    .card a:hover {
+      background-color: #d8bbb9;
+  }
+</style>
+
+<!-- Navigation buttons -->
+<button type="submit" class="btn btn-primary btn-nav" style="width:98px; height: 70px; background: black; font-size:1.5rem; font-weight: bolder;">
+  <a href="/">Back</a>
+</button>
+
+<br><br>
+
+<div class="container">
+  
+    <div class="filter-container">
+      <form method="GET" class="row g-3">
+        <div class="col-md-10">
+          {{ product_filters.form }}
+        </div>
+        <div class="col-md-2">
+          <input type="submit" value="Search" class="btn btn-primary btn-block" style="width:80px; background: black; font-size:1.5rem; font-weight: bolder;"/>
+        </div>
+      </form>
+    </div>
+
+    <section class="table_header">
+      <h1 class="text-center" style="color: black; font-weight: bolder;">ITEMS IN STOCK</h1>
+    </section>
+
+    <section class="table_body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th  style="background: #D6C5C4;">Branch Name</th>
+            <th  style="background: #D6C5C4;">Item Name</th>
+            <th  style="background: #D6C5C4;">Unit Cost (UGX)</th>
+            <th  style="background: #D6C5C4;">Unit Price (UGX)</th>
+            <th  style="background: #D6C5C4;">Total Quantity (Kgs)</th>
+            <th  style="background: #D6C5C4;">Remove Item</th>
+            <th  style="background: #D6C5C4;">Sale Item</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+          <tr>
+            <td>{{ product.stock_branch_name }}</td>
+            <td>{{ product.item_name }}</td>
+            <td>UGX {{ product.unit_cost }}</td>
+            <td>UGX {{ product.unit_price }}</td>
+            <td>{{ product.total_quantity }}</td>
+            
+            <td>
+              <a href="{% url 'delete_detail' product.id %}" onclick="return confirm('Are you sure you want to delete this item?');">
+                <button class="btn btn-danger" style="width:140px; height:50px; font-weight: bolder; font-size: 1.4rem;">Delete Item</button>
+              </a>
+            </td>
+            
+            <td>
+              <a href="{% url 'product_detail' product.id %}">
+                <button class="btn btn-primary" style="width:150px; height:60px; font-weight: bolder; font-size: 1.5rem;">View Item</button>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<!-- Card Section -->
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card">
+      <h2>Deferred Payments</h2>
+      <a href="{% url 'deffered_payments' %}">Add deferred payments</a>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card">
+      <h2>View Credit Sales</h2>
+      <a href="{% url 'deffered_payments_list' %}">View deferred payments</a>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card">
+      <h2>Add Product</h2>
+      <a href="{% url 'add_product' %}">Add Product</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

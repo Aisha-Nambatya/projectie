@@ -1,0 +1,88 @@
+{% extends 'kgl_app/base.html'%} {% block content%}
+<style>
+  .card {
+    width: 500px;
+    background: #E9DEDF;
+    border-radius: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    text-align: center;
+    margin: 2% auto;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.card-body {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.card-body .row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-body p {
+    margin: 0.5rem 0;
+}
+
+h3{
+  font-size: 1.2rem;
+  font-weight: bolder;
+  color:black;
+}
+
+p{
+  font-weight: bold;
+}
+
+.container{
+  background-color:rgba(255, 255, 255, 0.2);
+}
+
+
+
+
+</style>
+<br></br>
+
+
+<button type="submit" class="btn btn-nav" style="width:98px; height: 70px; background: black; font-size:1.5rem; font-weight: bolder; text-decoration: none;">
+  <a href="/">Back</a>
+</button>
+
+<div class="card">
+  <h5 class="card-title"> Selected Item</h5>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-5">
+        <h3>Name:</h3>
+        <h3>Unit Cost:</h3>
+        <h3>Unit Price:</h3>
+        <h3>Quantity:</h3>
+      </div>
+      <div class="col-lg-5">
+        <h3>{{product.item_name}}</h3>
+        <h3>UGX{{product.unit_cost}}</h3>
+        <h3>UGX {{product.unit_price}}</h3>
+        <h3>{{product.total_quantity}}</h3>
+      </div>
+    </div>
+    <div class="first">
+      <a href="{% url 'add_to_stock' product.id %}" ><input type= "submit" value="Update Stock" class="btn btn-success btn" type="button" style="background-color: green; font-weight: bolder; height:50px; font-size:1.2rem;"/></a>
+      <a href="{% url 'issue_item' product.id %}" ><input type="submit" value="Sale Item"  style="width:150px; height:50px; font-size:1.5rem; font-weight:bolder;" class="btn btn-primary" btn type="button"/></a>
+
+  </div>
+  </div>
+</div>
+
+
+</div>
+
+{% endblock%}

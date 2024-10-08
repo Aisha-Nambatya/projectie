@@ -1,0 +1,157 @@
+{% extends 'kgl_app/base.html'%}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    
+    /* Styling for the main title */
+    h1.text-center {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 30px;
+    }
+    
+    
+    .card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: transform 0.3s ease-in-out;
+        margin-bottom: 20px;
+    }
+    
+    .card:hover {
+        transform: translateY(-10px);
+    }
+    
+    
+    .card-body {
+        text-align: center;
+        padding: 20px;
+        transition: background-color 0.3s ease-in-out;
+        background-color: #f9f9f9;
+        color: #333;
+        border-radius: 5px;
+    }
+    
+    .card-title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #007bff;
+        margin-bottom: 10px;
+    }
+    
+    .card-text {
+        font-size: 1.1rem;
+        color: black;
+        margin-bottom: 5px;
+        font-weight:bolder;
+    }
+    
+    
+    .row.text-center {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 40px;
+    }
+    
+    .col-lg-4 {
+        display: flex;
+        justify-content: center;
+        
+    }
+    
+    /* used this to adjust spacing for smaller screens */
+    @media (max-width: 767px) {
+        .col-lg-4 {
+            margin-bottom: 20px;
+        }
+    }
+
+    .highlight{
+        color:brown;
+        font-weight:bolder;
+    }
+    .card-body a{
+        text-decoration:none;
+    }
+
+  
+    
+</style>
+<br>
+
+<div class="container">
+    <h1 class="text-center">TOTAL SALES MADE</h1><br>
+
+    <div class="row text-center">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Amount Expected</h5>
+                    <p class="card-text">UGX{{total_expected}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Debt issued</h5>
+                    <p class="card-text">UGX{{total_change}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Amount Received</h5>
+                    <p class="card-text">UGX{{total}}</p>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Net Amount</h5>
+                    <p class="card-text">UGX{{net}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container">
+    <div class="row">
+        {% for sale in sales %}
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <a href="/receipt_detail/{{sale.id}}">
+                    <h5 class="card-title">{{sale.issued_to | title}}</h5>
+                    <p class="card-text">Item Bought: <span class="highlight">{{sale.item | title}} </span></p>
+                    <p class="card-text">Quantity: <span class="highlight"> {{sale.quantity}}</span></p>
+                    <p class="card-text">Unit Price: <span class="highlight">UGX{{sale.unit_price}}</span></p>
+                    <p class="card-text">Total Cost: <span class="highlight">UGX{{sale.get_total}}</span></p>
+                    <p class="card-text">Amount Paid: <span class="highlight">UGX{{sale.amount_received}}</span></p>
+                    <p class="card-text">Balance expected: <span class="highlight">UGX{{sale.get_change}}</span></p>
+                </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

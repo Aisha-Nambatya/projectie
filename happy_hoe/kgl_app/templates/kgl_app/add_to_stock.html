@@ -1,0 +1,36 @@
+{% extends 'kgl_app/base.html'%}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+<style>
+    h1{
+        font-weight: bolder;
+    }
+
+    form label{
+        font-weight: bolder;
+        font-size: 1.5rem;
+       }
+</style>
+<br/>
+<div class="container">
+    <form method="POST"  style="border-radius: 75px;
+    border: 2px solid white;  padding: 60px; color: black; 
+    width: 400px;
+    height: 350px; ">
+        <h1 class="text-center">UPDATE STOCK LEVELS</h1>
+        <br/>
+        {% csrf_token %}
+        {{ form | crispy }}
+
+        <input 
+        type = "submit"
+        value = "Update"
+        class="btn btn-success btn" 
+        type="button" style="background-color: green; font-weight: bolder; width: 129px; height:50px; font-size:1.5rem; float:right;"/>
+
+    </form>
+</div>
+{% endblock  %}

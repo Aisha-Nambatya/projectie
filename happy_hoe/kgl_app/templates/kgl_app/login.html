@@ -1,0 +1,54 @@
+{% extends 'kgl_app/base.html'%}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<style>
+
+    footer {
+        background: #a37579;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        color: white;
+        position: fixed;
+        padding: 10px 0;
+        font-size: 14px;
+    }
+
+    .scrollable-vertical {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+</style>
+
+{% block content  %}
+<br><br>
+<div class="container scrollable-vertical">
+    <div class="body container-fluid container login">
+
+
+        <div class="container container-fluid">
+            <div>
+            <H2 style='text-align:center; font-weight:bolder;'>LOGIN</H2>
+            </div>
+            <form id="form" method="POST" class="loginform" style="border-radius: 75px;
+        border: 2px solid white;  padding: 60px; color: black; 
+        width: 400px;
+        height: 350px; ">
+                {% csrf_token %}
+                {{form | crispy}}
+                <br> <br>
+                <div style="text-align: center;">
+                    <button type="submit" name="Login" class="btn btn-primary text-centered"
+                        style="border-radius: 20px; font-weight: bolder; width: 200px; height: 50px; background:black; color:white; font-size:1.2rem;">Login</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+{% endblock %}

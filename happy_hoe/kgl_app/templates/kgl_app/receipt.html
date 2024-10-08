@@ -1,0 +1,136 @@
+{% extends 'kgl_app/base.html'%}
+{% block content %}
+<br /><br />
+
+
+<style>
+
+  .container {
+    padding: 40px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+
+  .card {
+    width: 100%;
+    max-width: 350px;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-body {
+    background: #f2e8e7; 
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .card-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #333; 
+    margin-bottom: 10px;
+  }
+
+  .card-header {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .highlight {
+    color: #007bff; 
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .card-text {
+    font-size: 1.1rem;
+    color: #555; 
+    margin-bottom: 10px;
+  }
+
+
+  input[type="submit"] {
+    background: #007bff; 
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    text-transform: uppercase;
+  }
+
+  input[type="submit"]:hover {
+    background: #0056b3; 
+    transform: scale(1.05);
+  }
+
+
+  @media (max-width: 768px) {
+    .card {
+      max-width: 100%;
+      margin: 10px;
+    }
+
+    .card-title, .card-text {
+      font-size: 1rem;
+    }
+
+    .highlight {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+
+<div class="container">
+  <h1 class="card-header text-center">ALL RECEIPTS</h1><br>
+  <div class="row">
+    {% for sale in sales %}
+    <div class="col-lg-4 col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">Customer: <span class="highlight">{{ sale.issued_to | title }}</span></h3>
+          <h6 class="card-title">Time: <span class="highlight">{{ sale.time }}</span></h6>
+
+          <h6 class="card-text">Item: <span class="highlight">{{ sale.item }}</span></h6>
+          <h6 class="card-text">Amount Paid: <span class="highlight">UGX{{ sale.amount_received }}</span></h6>
+          <h6 class="card-text">Quantity: {{ sale.quantity }}</h6>
+          <h2>Total Price: <span class="highlight">UGX{{ sale.get_total }}</span></h2>
+          <div style="flex: 1">
+            <h6 class="card-text">Balance expected: <span class="highlight">UGX{{ sale.get_change }}</span></h6>
+           <a href="{% url 'receipt_detail' sale.id %}" style="text-decoration: none;">
+              <input type="submit" 
+                     style="background: #d8bbb9; color: black; border: 2px solid black; font-weight: bolder; float: right; cursor: pointer;" 
+                     value="Final Receipt" 
+                     class="btn btn-danger"
+                     onmouseover="this.style.background='black'; this.style.color='white';" 
+                     onmouseout="this.style.background='white'; this.style.color='black';" />
+          </a>
+          </div>
+        </div>
+      </div>
+      <br />
+    </div>
+
+    {% if forloop.counter|divisibleby:3 %}
+    </div><div class="row">
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
